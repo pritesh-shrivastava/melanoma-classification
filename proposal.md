@@ -21,18 +21,25 @@ In this competition, participants will identify melanoma in images of skin lesio
 ### Datasets and Inputs
 
 #### Images
-The images are provided in DICOM format. This can be accessed using commonly-available libraries like pydicom, and contains both image and metadata. It is a commonly used medical imaging data format.
 
-Images are also provided in JPEG and TFRecord format (in the jpeg and tfrecords directories, respectively). Images in TFRecord format have been resized to a uniform 1024x1024.
+The images are provided in DICOM & JPEG formats. DICOM images can be accessed using commonly-available libraries like pydicom, and contains both image and metadata. It is a commonly used medical imaging data format.
+
+Total image files in training set ~ 33.1k (DICOM & JPEG each)
+Total image files in test set ~ 11.0k (DICOM * JPEG each)
+
+Images are also provided in TFRecord format (in the tfrecords directory). Images in TFRecord format have been resized to a uniform 1024x1024 and there are overall 32 files in the directory.
 
 #### Image Metadata
 Metadata is also provided outside of the DICOM format, in CSV files.
 
 #### Files
 
-* train.csv - the training set
-* test.csv - the test set
-* sample_submission.csv - a sample submission file in the correct format
+* train.csv - the training set (1.96 MB)
+* test.csv - the test set (479 KB)
+* sample_submission.csv - a sample submission file in the correct format (161 KB)
+
+Total size of the dataset (Images + Files) - 108.19 GB .
+
 
 #### Columns
 
@@ -75,12 +82,17 @@ The code for the baseline model is added in the Github repo. Here is the Kaggle 
 
 ### Project Design
 
-We can use PyTorch library to build the neaural network. We can use stratified k-folds for model validation. 
+Image processing steps might differ for images with different file sizes, for eg., 1024x1024x3 vs 512x512x3 etc.
+We can combine the given tfrecords data for images with the image metadata to create new tfrecords, and then use them for modeling.
+
+Since we are working with tfrecords, we can use Tensorflow library to build our neural network. 
+We can use stratified k-folds for model validation before making predictions on the test set.
+
 Since training a deep learning model on a large image dataset (~120 GB) is going to be a compute heavy task,
 Kaggle notebooks which offer free GPUs (and TPUs) can serve as the ideal solution for training this model.
 
-Additionally, pretrained models such as ImageNet might be useful to get a good score.
+Additionally, pretrained models such as ImageNet might be explored to get a good score.
 
-We have also seen that the benchmark model using patient info described above has given good results, 
-we can probably try to make some kind of ensemble. For eg, bagging the results of the image classifier 
+We have already seen that the benchmark model using patient info described above has given good results (AUROC 69.9%), 
+so the final model can be some kind of ensemble. For eg, bagging the results of the image classifier 
 with the benchmark model might be worth trying out.
