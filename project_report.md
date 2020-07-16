@@ -1,4 +1,8 @@
-# Project Report
+# Udacity Machine Learning Engineer Nanodegree
+# Melanoma Classification - Project Report
+
+Pritesh Shrivastava
+July 17th, 2020
 
 ## Definition
 
@@ -150,3 +154,6 @@ The final model’s qualities—such as parameters—are evaluated in detail. So
 	
 
 The final results are compared to the benchmark result or threshold with some type of statistical analysis. Justification is made as to whether the final model and solution is significant enough to have adequately solved the problem.
+
+
+## References
