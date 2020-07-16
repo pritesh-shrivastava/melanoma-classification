@@ -17,7 +17,7 @@ Melanoma is a deadly disease, but if caught early, most melanomas can be cured w
 
 The dataset consists of images in :
 
-    DIOCOM format
+    DICOM format
     JPEG format in JPEG directory
     TFRecord format in tfrecords directory
 
@@ -52,15 +52,16 @@ where TP = True Positives & FN = False Negtives
 ```
 FPR = FP / (FP + TN)
 ```
+where, FP = False Positives & TN = True Negatives
 
 An ROC curve plots TPR vs. FPR at different classification thresholds. Lowering the classification threshold classifies more items as positive, thus increasing both False Positives and True Positives.
 
-[ROC-Curve](images/ROCCurve.svg)
+![ROC-Curve](./images/ROCCurve.svg)
 
 AUC is desirable for the following two reasons:
 
-    * AUC is scale-invariant. It measures how well predictions are ranked, rather than their absolute values.
-    * AUC is classification-threshold-invariant. It measures the quality of the model's predictions irrespective of what classification threshold is chosen.
+* AUC is scale-invariant. It measures how well predictions are ranked, rather than their absolute values.
+* AUC is classification-threshold-invariant. It measures the quality of the model's predictions irrespective of what classification threshold is chosen.
 
 Source: https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 
