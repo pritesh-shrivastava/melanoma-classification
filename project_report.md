@@ -31,7 +31,9 @@ Additionally, pretrained models such as ImageNet might be explored to get a good
 
 ### Metrics
 	
-Evaluation metric for this image classification Kaggle competition is Area under the ROC curve.
+Evaluation metric for this Kaggle competition is Area under the ROC curve. This value is calculated on the test set. As the competition is currently open, its public leaderboard is calculated with approximately 30% of the test data. The final results will be based on the other 70 % of test data. 
+We will try to optimize our AUROC value on the public leaderboard for this capstone project.
+
 An ROC curve (receiver operating characteristic curve) is a graph showing the performance of a classification model at all classification thresholds. This curve plots two parameters:
 - True Positive Rate (TPR), or Recall, is defined as follows : 
 ```
@@ -174,8 +176,14 @@ The process for which metrics, algorithms, and techniques were implemented with 
 
 ### Refinement
 	
+We began with a simple baseline model that used grouped means to calculate target values. This gave us a score of 69.9% AUROC (public leaderboard).
 
-The process of improving upon the algorithms and techniques used is clearly documented. Both the initial and final solutions are reported, along with intermediate solutions, if necessary.
+Before trying an image classifier, we used only the tabular data with an XGBoost model to get an improved result of 72.88 %.
+
+Next, we built an image classifier using transfer learning, with VGG-16 pretrained model, to get a much better result of AUROC 81.16 %.
+
+We further tried to improve this result by creating an ensemble of both tablular data (XGBoost) & image data predictions to end up with a result of AUROC 82.39 %.
+
 
 ## Results
 
@@ -186,8 +194,14 @@ The final model’s qualities—such as parameters—are evaluated in detail. So
 
 ### Justification
 	
+Our ensemble model acheives an Area under ROC curve of 82.39 % on the test set (public leaderboard). This is much better than the results of our simple baseline model that gave a score of 69.9 %. We have been able to make significant improvement over our evaluation metric through this project !
 
-The final results are compared to the benchmark result or threshold with some type of statistical analysis. Justification is made as to whether the final model and solution is significant enough to have adequately solved the problem.
+### Future steps for improvement
 
+Use of external data, such as similar image classification competitions from previous years ([ISIC 2018](https://www.kaggle.com/shonenkov/isic2018), [ISIC 2017](https://www.kaggle.com/shonenkov/isic2017), [ISIC 2016](https://www.kaggle.com/shonenkov/isic2016)) can be explored.
+
+Features related to the colour of the images can be included in the tabular data classifier to check if it is significant. While we have included the image dimensions as a feature in the tabular data classifier, it only serves as a target leak and is not useful for real world applications, and thus it can be dropped.
+
+More data augmentation techniques can be tried, inlcluding training on images with differnt sizes, removing colours (converting to grayscale) and using different cropping / rotating methods.
 
 ## References
