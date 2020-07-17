@@ -96,10 +96,10 @@ The description for columns in these 3 files are :
 
 The first 5 records from the 2 CSV files are shown below :
 - Train CSV :
- ![Train](./images/train_head.png)
+![Train](./images/train_head.png)
 
 - Test CSV :
- ![Test](./images/test_head.png)
+![Test](./images/test_head.png)
 
 #### Missing Values
 
