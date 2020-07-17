@@ -92,10 +92,20 @@ The description for columns in these 3 files are :
 * target - binarized version of the target variable, the value 0 denotes `benign`, and 1 indicates `malignant`
 
 
-#### Sample values from train & test CSVs
+#### Sample values from train & test sets
 
+The first 5 records from the 2 CSV files are shown below :
+- Train CSV :
+ ![Train](./images/train_head.png)
+
+- Test CSV :
+ ![Test](./images/test_head.png)
 
 #### Missing Values
+
+Null value count for both test & train datasets is shown below :
+
+![null](./images/null_values.png)
 
 
 #### Imputing missing values
@@ -144,7 +154,7 @@ A good baseline model can be created by using 3 features, namely, age, sex and t
 We can calculate the grouped mean value for each combination of these features in the train set and 
 use that to make predictions on the test set. 
 
-Predictions using this simple mean value of the target variable gives an Area under ROC value of `0.699` on the public leaderboard !! 
+Predictions using this simple mean value of the target variable gives an Area under ROC value of `0.699` on the test set (public leaderboard) !! 
 
 Our final classifier should be able to beat atleast this benchmark to be deemed useful.
 
