@@ -160,14 +160,28 @@ Predictions using this simple mean value of the target variable gives an Area un
 
 Our final classifier should be able to beat atleast this benchmark to be deemed useful.
 
-The code for the baseline model is added in the Github repo (melanoma-simple-baseline.ipynb). 
+The code for the baseline model is added in the notebook `melanoma-simple-baseline.ipynb`. 
 
 ## Methodology
 
-### Data Preprocessing
-	
+### Data Preprocessing 
 
-All preprocessing steps have been clearly documented. Abnormalities or characteristics of the data or input that needed to be addressed have been corrected. If no data preprocessing is necessary, it has been clearly justified.
+#### Pre-processing for Image Data
+
+* Under Sampling - Given the biased nature of training data (32542 benign records vs 584 malignant records), we are going to undersample our training set by picking random 2000 record from the benign cases, and all records from the malignant cases.
+
+* Reshaping images - Since the images in our dataset have various sizes, we are going to reshape them all to one size (224x224)
+
+* Train Validation Split - We will create a hold out validation set (20% of train data) to test our model performance before using it on the test set.
+
+* Data Augmentation - We will augment our training data (after exluding the validation data) using basic augmentation techniques like rotation, flipping, shifting height & width, etc.
+
+Code for these pre-processing steps for images is available in the notebook, `melanoma-keras-vgg.ipynb`.
+
+#### Pre-processing for Tabular Data
+
+* ...
+
 
 ### Implementation
 	
@@ -189,6 +203,10 @@ We further tried to improve this result by creating an ensemble of both tablular
 
 ### Model Evaluation and Validation
 	
+#### Validation set results for Image Classifier
+
+...
+
 
 The final model’s qualities—such as parameters—are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
 
@@ -203,5 +221,3 @@ Use of external data, such as similar image classification competitions from pre
 Features related to the colour of the images can be included in the tabular data classifier to check if it is significant. While we have included the image dimensions as a feature in the tabular data classifier, it only serves as a target leak and is not useful for real world applications, and thus it can be dropped.
 
 More data augmentation techniques can be tried, inlcluding training on images with differnt sizes, removing colours (converting to grayscale) and using different cropping / rotating methods.
-
-## References
