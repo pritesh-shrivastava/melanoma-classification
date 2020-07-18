@@ -4,12 +4,8 @@
 
 #### Environment
 
-* Python 3 environment on Kaggle Notebooks, defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+* Python 3 environment on Kaggle Notebooks, defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python. This environment comes pre-loaded with all the necessary libraries.
 * Accelerator - GPU
-
-#### Python Packages
-
-* 
 
 
 ### Dataset from Kaggle Competition

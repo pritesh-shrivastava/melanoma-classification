@@ -112,6 +112,9 @@ Null value count for both test & train datasets is shown below :
 
 #### Imputing missing values
 
+We can impute missing values for the categorical variables `sex` & `anotom_site_general_challenge` with `unknown`.
+
+For `age_approx`, we can replace missing values with the mode value.
 
 #### Summary statistics of metadata
 
@@ -150,6 +153,25 @@ Source : http://ethereon.github.io/netscope/#/preset/vgg-16
 
 Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
 
+#### XGBoost for Tabular Data 
+
+For the image metadata, we are going to use an XGBoost model as these models have traditionally given best possible results on tabular data. XGBoost is an optimized distributed gradient boosting library designed to be highly efficient, flexible and portable. It implements machine learning algorithms under the Gradient Boosting framework. XGBoost provides a parallel tree boosting (also known as GBDT, GBM) that solve many data science problems in a fast and accurate way.
+
+XGBoost stands for “Extreme Gradient Boosting”, where the term “Gradient Boosting” originates from the paper Greedy Function Approximation: A Gradient Boosting Machine, by Friedman. In boosting, the decision trees are built sequentially such that each subsequent tree aims to reduce the errors of the previous tree. Each tree learns from its predecessors and updates the residual errors. Hence, the tree that grows next in the sequence will learn from an updated version of the residuals.
+
+The base learners in boosting are weak learners in which the bias is high, and the predictive power is just a tad better than random guessing. Each of these weak learners contributes some vital information for prediction, enabling the boosting technique to produce a strong learner by effectively combining these weak learners. The final strong learner brings down both the bias and the variance.
+
+The boosting ensemble technique consists of three simple steps:
+
+* An initial model `F0` is defined to predict the target variable `y`. This model will be associated with a residual `(y – F0)`
+* A new model `h1` is fit to the residuals from the previous step
+* Now, `F0` and `h1` are combined to give `F1`, the boosted version of `F0`. The mean squared error from F1 will be lower than that from `F0`
+* To improve the performance of `F1`, we could model after the residuals of `F1` and create a new model `F2`.
+This can be done for n iterations, until residuals have been minimized as much as possible.
+
+
+[Source](https://xgboost.readthedocs.io/en/latest/)
+
 ### Benchmark
 
 A good baseline model can be created by using 3 features, namely, age, sex and the location of the images site.
@@ -180,7 +202,7 @@ Code for these pre-processing steps for images is available in the notebook, `me
 
 #### Pre-processing for Tabular Data
 
-* Handling missing values - We need to impute values for `sex` & `anotom_site_general_challenge` with `unknown`.For `age_approx`, we can replace missing values with the mode value.
+* Handling missing values for `sex` & `anotom_site_general_challenge` (imputing with `unknown`) & for `age_approx` (imputing with the mode) has been discussed in the Data Exploration section.
 
 * Label encoding - For categorical variables like `sex` & `anotom_site_general_challenge`, label encoding can be useful.
 
@@ -191,9 +213,20 @@ Code for these pre-processing steps for images is available in the notebook, `me
 Code for tabular data pre-processing can be found in the notebook, `melanoma-tabular-data-xgboost.ipynb`.
 
 ### Implementation
-	
 
-The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented. Complications that occurred during the coding process are discussed.
+#### Image Data Classifier
+
+After data processing of images, we use a pre-trained VGG-16 model trained `imagenet` using the Keras & Tensorflow libraries. We add 1 Dense layer with a sigmoid activation to the pre-trained model without the top layer.
+For the loss function, we have chosen focal loss rather than binary cross-entropy owing to the class imbalance. 
+[Source](https://arxiv.org/abs/1708.02002)
+
+We have used an Adam optimizer with a learning rate of `1e-5` & a batch size of 8.
+
+#### Tabular Data Regressor
+
+As we need to predict a continuous probability between 0 & 1 (float), we are using an XGBoost Regressor model. After the pre-processing & feature engineering, we have manually tuned the parameters of the XGBoost model by using a stratified 5-fold cross validation strategy.
+
+The no of estimators for the regressor were set at 700 with a max_depth of 10. Various hyperparameters were tuned by hand to give the best possible result on public leaderboard.
 
 ### Refinement
 	
@@ -209,13 +242,25 @@ We further tried to improve this result by creating an ensemble of both tablular
 ## Results
 
 ### Model Evaluation and Validation
-	
-#### Validation set results for Image Classifier
 
-...
+#### Model Validation for Image Classifier
 
+We have used a 20% holdout validation set for this case. The results on validation set are shown below :
 
-The final model’s qualities—such as parameters—are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+![val-img](./images/val_img.png)
+
+We are getting a max value of AUROC of 73.6 %. The results seem to improve with no of epochs as the validation loas also reduces.
+
+When using this model on the test set, we get a score of 81.16 % on the public leaderboard (30% of the test set).
+
+#### Model Validation for Tabular Data Model
+
+Using stratified k-fold (5 folds) for the XGBoost regressor model, we acheived an AUROC of 83.39 %.
+Fitting the same model on the entire training dat & making predictions on the test set gave an AUROC of 72.88 % on the public leaderboard.
+
+#### Test set results for the ensemble model
+
+On the public leaderboard, the ensemble of tabular data model & the image classifier gave a better result that either of those models alone, an AUROC of 82.39 %.
 
 ### Justification
 	
