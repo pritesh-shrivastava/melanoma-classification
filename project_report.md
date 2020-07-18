@@ -180,8 +180,15 @@ Code for these pre-processing steps for images is available in the notebook, `me
 
 #### Pre-processing for Tabular Data
 
-* ...
+* Handling missing values - We need to impute values for `sex` & `anotom_site_general_challenge` with `unknown`.For `age_approx`, we can replace missing values with the mode value.
 
+* Label encoding - For categorical variables like `sex` & `anotom_site_general_challenge`, label encoding can be useful.
+
+* Feature Engineering - Grouping `age_approx` by `patient_id`, we can calculate the minimum age, `age_id_min`, and the maximum age, `age_id_max`, that is approximated for each `patient_id`. Besides, I've also added 2 other features related to images - image size (`image_size_scaled`) & no of images per patient (`n_images`). These 2 features may not be applicable in a real world application for melanoma detection, but for the purposes of this competition, I've found that these 2 features have significant feature importance.
+
+![feat_imp](./images/feat_imp.png)
+
+Code for tabular data pre-processing can be found in the notebook, `melanoma-tabular-data-xgboost.ipynb`.
 
 ### Implementation
 	
