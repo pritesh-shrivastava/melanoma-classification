@@ -12,7 +12,7 @@ Skin cancer is the most prevalent type of cancer. Melanoma, specifically, is res
 
 Currently, dermatologists evaluate every one of a patient's moles to identify outlier lesions or “ugly ducklings” that are most likely to be melanoma. Existing AI approaches have not adequately considered this clinical frame of reference. Dermatologists could enhance their diagnostic accuracy if detection algorithms take into account “contextual” images within the same patient to determine which images represent a melanoma. If successful, classifiers would be more accurate and could better support dermatological clinic work.
 
-As the leading healthcare organization for informatics in medical imaging, the [Society for Imaging Informatics in Medicine (SIIM)](https://siim.org/)'s mission is to advance medical imaging informatics through education, research, and innovation in a multi-disciplinary community. SIIM is joined by the [International Skin Imaging Collaboration (ISIC)](https://www.isic-archive.com/#!/topWithHeader/wideContentTop/main), an international effort to improve melanoma diagnosis. The ISIC Archive contains the largest publicly available collection of quality-controlled dermoscopic images of skin lesions. This dataset has been relesed on the competitive data science platform [Kaggle](https://www.kaggle.com/c/siim-isic-melanoma-classification/data)
+As the leading healthcare organization for informatics in medical imaging, the [Society for Imaging Informatics in Medicine (SIIM)](https://siim.org/)'s mission is to advance medical imaging informatics through education, research, and innovation in a multi-disciplinary community. SIIM is joined by the [International Skin Imaging Collaboration (ISIC)](https://www.isic-archive.com/#!/topWithHeader/wideContentTop/main), an international effort to improve melanoma diagnosis. The ISIC Archive contains the largest publicly available collection of quality-controlled dermoscopic images of skin lesions. This dataset has been relesed on the competitive data science platform [Kaggle](https://www.kaggle.com/c/siim-isic-melanoma-classification/data).
 
 [Source](https://www.kaggle.com/c/siim-isic-melanoma-classification/overview)
 
@@ -20,6 +20,7 @@ As the leading healthcare organization for informatics in medical imaging, the [
 	
 In this competition, participants will identify melanoma in images of skin lesions. In particular, they will use images within the same patient and determine which are likely to represent a melanoma. Specifically, participants need to predict a binary target for each image ie, the probability (floating point) between 0.0 and 1.0 that the lesion in the image is malignant (the target).
 
+#### Solution Stratgy
 For this competition, we are going to build an image classifier using deep learning. We will need to begin with image pre-processing as we have images of varying sizes, for eg., 1024x1024x3 vs 512x512x3 etc.
 We can combine the results of the image classifier with a tabular data model on image metadata for ensembling.
 
@@ -115,9 +116,6 @@ We can impute missing values for the categorical variables `sex` & `anotom_site_
 
 For `age_approx`, we can replace missing values with the mode value.
 
-#### Summary statistics of metadata
-
-
 ### Exploratory Visualization
 	
 #### Target distribution
@@ -177,7 +175,7 @@ We can see that images have varying sizes, so we will need to resize all images 
 
 We can see that colors for bening & malignant cases might have different distributions.
 
-#### Colour distribution - Bening vs Malignant cases
+#### Colour distribution - Benign vs Malignant cases
 
 ![bening-colour](./images/benign-colour.png)
 
@@ -211,8 +209,6 @@ VGG16 contains 16 layers and VGG19 contains 19 layers. A series of VGGs are exac
 ![VGG16](./images/vgg16-config.jpg)
 
 Source : http://ethereon.github.io/netscope/#/preset/vgg-16
-
-Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
 
 #### XGBoost for Tabular Data 
 
@@ -283,11 +279,14 @@ For the loss function, we have chosen focal loss rather than binary cross-entrop
 
 We have used an Adam optimizer with a learning rate of `1e-5` & a batch size of 8.
 
+
 #### Tabular Data Regressor
 
 As we need to predict a continuous probability between 0 & 1 (float), we are using an XGBoost Regressor model. After the pre-processing & feature engineering, we have manually tuned the parameters of the XGBoost model by using a stratified 5-fold cross validation strategy.
 
 The no of estimators for the regressor were set at 700 with a max_depth of 10. Various hyperparameters were tuned by hand to give the best possible result on public leaderboard.
+
+The training & prediction code for image classifier is available in the notebook `melanoma-keras-vgg.ipynb`, while that for the tabular data regressor is in the notebook `melanoma-tabular-data-xgboost.ipynb`.
 
 ### Refinement
 	
@@ -331,6 +330,7 @@ Our ensemble model acheives an Area under ROC curve of 82.39 % on the test set (
 
 Use of external data, such as similar image classification competitions from previous years ([ISIC 2018](https://www.kaggle.com/shonenkov/isic2018), [ISIC 2017](https://www.kaggle.com/shonenkov/isic2017), [ISIC 2016](https://www.kaggle.com/shonenkov/isic2016)) can be explored.
 
-Features related to the colour of the images can be included in the tabular data classifier to check if it is significant. While we have included the image dimensions as a feature in the tabular data classifier, it only serves as a target leak and is not useful for real world applications, and thus it can be dropped.
+More sophisticated data augmentation techniques can be tried out. 
 
-More data augmentation techniques can be tried, inlcluding training on images with differnt sizes, removing colours (converting to grayscale) and using different cropping / rotating methods.
+Features related to the colour of the images can be included in the tabular data classifier to check if it is significant. 
+
