@@ -21,9 +21,8 @@ As the leading healthcare organization for informatics in medical imaging, the [
 In this competition, participants will identify melanoma in images of skin lesions. In particular, they will use images within the same patient and determine which are likely to represent a melanoma. Specifically, participants need to predict a binary target for each image ie, the probability (floating point) between 0.0 and 1.0 that the lesion in the image is malignant (the target).
 
 For this competition, we are going to build an image classifier using deep learning. We will need to begin with image pre-processing as we have images of varying sizes, for eg., 1024x1024x3 vs 512x512x3 etc.
-We can combine the results of the image classifier with a tabular data classifier on image metadata for ensembling.
+We can combine the results of the image classifier with a tabular data model on image metadata for ensembling.
 
-For working with tfrecords, Tensorflow library will be a good choice to build our neural network. 
 We can use stratified k-folds for model validation before making predictions on the test set.
 Since training a deep learning model on a large image dataset (~120 GB) is going to be a compute heavy task,
 Kaggle notebooks which offer free GPUs (and TPUs) can serve as the ideal solution for training this model.
@@ -49,7 +48,7 @@ where, FP = False Positives & TN = True Negatives
 
 An ROC curve plots TPR vs. FPR at different classification thresholds. Lowering the classification threshold classifies more items as positive, thus increasing both False Positives and True Positives.
 
-![ROC-Curve](./images/ROCCurve.svg)
+<img src="./images/ROCCurve.svg" alt="AUC-ROC-img" width="300"/>
 
 Source: https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 
@@ -65,9 +64,9 @@ AUC is desirable for the following two reasons:
 	
 The dataset consists of images in :
 
-    DICOM format
-    JPEG format in JPEG directory
-    TFRecord format in tfrecords directory
+* DICOM format
+* JPEG format in JPEG directory
+* TFRecord format in tfrecords directory
 
 Additionally, there is a metadata comprising of train, test and submission file in CSV format. 
 
@@ -123,13 +122,13 @@ For `age_approx`, we can replace missing values with the mode value.
 	
 #### Target distribution
 
-![target-dist](./images/target_dist.png)
+<img src="./images/target_dist.png" alt="target-dist-img" width="400"/>
 
 From the given distribution, we can see there is a heavy class imbalance between the benign & malignant cases in the training dataset. For our image classifier, we can perhaps undersample the training data first.
 
 #### Target distribution by gender
 
-![target-gender](./images/gender_target.png)
+<img src="./images/gender_target.png" alt="gender_target-img" width="400"/>
 
 There is a slight difference for benign & malignant cases based on gender.
 
@@ -139,7 +138,7 @@ There is a slight difference for benign & malignant cases based on gender.
 
 Most of the images have been taken from the torso & lower extremities.
 
-![location-gender](./images/gender-location.png)
+<img src="./images/gender-location.png" alt="gender-location" width="400"/>
 
 For both genders, the distribution of the imaged sites seem similar
 
@@ -164,17 +163,17 @@ We also checked if the same patient appeared in both the training & test set, bu
 
 #### Sample images
 
-![sample-img](./images/sample-img.png)
+<img src="./images/sample-img.png" alt="sample-img" width="400"/>
 
 We can see that images have varying sizes, so we will need to resize all images into 1 size before modeling.
 
 #### Benign cases - Sample images
 
-![bening](./images/benign.png)
+<img src="./images/benign.png" alt="bening-img" width="400"/>
 
 #### Malignant cases - Sample images
 
-![malignant](./images/malignant.png)
+<img src="./images/malignant.png" alt="malignant-img" width="400"/>
 
 We can see that colors for bening & malignant cases might have different distributions.
 
@@ -201,7 +200,7 @@ The full name of VGG is the Visual Geometry Group, which belongs to the Departme
 
 The input of VGG is set to an RGB image of 224x244 size. The average RGB value is calculated for all images on the training set image, and then the image is input as an input to the VGG convolution network. A 3x3 or 1x1 filter is used, and the convolution step is fixed. . There are 3 VGG fully connected layers, which can vary from VGG11 to VGG19 according to the total number of convolutional layers + fully connected layers. The minimum VGG11 has 8 convolutional layers and 3 fully connected layers. The maximum VGG19 has 16 convolutional layers. +3 fully connected layers. In addition, the VGG network is not followed by a pooling layer behind each convolutional layer, or a total of 5 pooling layers distributed under different convolutional layers. The following figure is VGG Structure diagram:
 
-![VGG-arch](./images/vgg.png)
+<img src="./images/vgg.png" alt="vgg-img" width="400"/>
 
 Source : https://neurohive.io/en/popular-networks/vgg16/
 
@@ -270,7 +269,7 @@ Code for these pre-processing steps for images is available in the notebook, `me
 
 * Feature Engineering - Grouping `age_approx` by `patient_id`, we can calculate the minimum age, `age_id_min`, and the maximum age, `age_id_max`, that is approximated for each `patient_id`. Besides, I've also added 2 other features related to images - image size (`image_size_scaled`) & no of images per patient (`n_images`). These 2 features may not be applicable in a real world application for melanoma detection, but for the purposes of this competition, I've found that these 2 features have significant feature importance.
 
-![feat_imp](./images/feat_imp.png)
+<img src="./images/feat_imp.png" alt="feat-imp-img" width="400"/>
 
 Code for tabular data pre-processing can be found in the notebook, `melanoma-tabular-data-xgboost.ipynb`.
 
@@ -326,7 +325,7 @@ On the public leaderboard, the ensemble of tabular data model & the image classi
 
 ### Justification
 	
-Our ensemble model acheives an Area under ROC curve of 82.39 % on the test set (public leaderboard). This is much better than the results of our simple baseline model that gave a score of 69.9 %. We have been able to make significant improvement over our evaluation metric through this project !
+Our ensemble model acheives an Area under ROC curve of 82.39 % on the test set (public leaderboard). This is much better than the resul1ts of our simple baseline model that gave a score of 69.9 %. We have been able to make significant improvement over our evaluation metric through this project !
 
 ### Future steps for improvement
 
