@@ -121,8 +121,70 @@ For `age_approx`, we can replace missing values with the mode value.
 
 ### Exploratory Visualization
 	
+#### Target distribution
 
-A visualization has been provided that summarizes or extracts a relevant characteristic or feature about the dataset or input data with thorough discussion. Visual cues are clearly defined.
+![target-dist](./images/target_dist.png)
+
+From the given distribution, we can see there is a heavy class imbalance between the benign & malignant cases in the training dataset. For our image classifier, we can perhaps undersample the training data first.
+
+#### Target distribution by gender
+
+![target-gender](./images/gender_target.png)
+
+There is a slight difference for benign & malignant cases based on gender.
+
+#### Distribution of imaged site in training data
+
+![imaged-site](./images/location.png)
+
+Most of the images have been taken from the torso & lower extremities.
+
+![location-gender](./images/gender-location.png)
+
+For both genders, the distribution of the imaged sites seem similar
+
+#### Distribution of patients by age
+
+![age-dist](./images/age_dist.png)
+
+Age distribution of patients seems to follow a normal distribution other than a missing bin near the mode.
+Note that these are approximate ages though.
+
+![age-target](./images/age-target.png)
+
+There is a higher chance of a malignant cancer in older ages !
+
+#### Distribution of manual diagnosis
+
+![diagnosis](./images/diagnosis.png)
+
+Most of the cases were diagnosed by medical professionals as either `unknown` or `nevus` (mole).
+
+We also checked if the same patient appeared in both the training & test set, but this was not the case.
+
+#### Sample images
+
+![sample-img](./images/sample-img.png)
+
+We can see that images have varying sizes, so we will need to resize all images into 1 size before modeling.
+
+#### Benign cases - Sample images
+
+![bening](./images/benign.png)
+
+#### Malignant cases - Sample images
+
+![malignant](./images/malignant.png)
+
+We can see that colors for bening & malignant cases might have different distributions.
+
+#### Colour distribution - Bening vs Malignant cases
+
+![bening-colour](./images/benign-colour.png)
+
+![malignant-colour](./images/malignant-colour.png)
+
+The code for all the above visualizations can be found at `melanoma-eda.ipynb`.
 
 ### Algorithms and Techniques
 	
