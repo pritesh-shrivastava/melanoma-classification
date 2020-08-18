@@ -13,3 +13,8 @@
 Kaggle Competition Link - [here](https://www.kaggle.com/c/siim-isic-melanoma-classification)
 
 Dataset link - [here](https://www.kaggle.com/c/siim-isic-melanoma-classification/data)
+
+
+### Competition Results
+
+- Final Rank 613 out of 3437 teams (Top 18%)
