@@ -1,7 +1,7 @@
 ## SIIM-ISIC Melanoma Classification
  
 This repository contains my solution to the Kaggle competition on detecting melanoma (skin cancer) based on patient scans and medical records.
-I participated in this competition as part of my Udacity Machine Learning Engineer Nanodegree, and have created a detailed project report [here](./projecr_report.md)
+I participated in this competition as part of my Udacity Machine Learning Engineer Nanodegree, and have created a detailed project report [here](./project_report.md)
 
 ### Dataset from Kaggle Competition
 
